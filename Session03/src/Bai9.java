@@ -13,55 +13,44 @@ public class Bai9 {
             int tens = (number % 100) / 10;
             int units = number % 10;
 
-            StringBuilder words = new StringBuilder();
-
-            switch (hundreds) {
-                case 1: words.append("một"); break;
-                case 2: words.append("hai"); break;
-                case 3: words.append("ba"); break;
-                case 4: words.append("bốn"); break;
-                case 5: words.append("năm"); break;
-                case 6: words.append("sáu"); break;
-                case 7: words.append("bảy"); break;
-                case 8: words.append("tám"); break;
-                case 9: words.append("chín"); break;
-            }
-            words.append(" trăm ");
+            readDigit(hundreds);
+            System.out.print(" trăm ");
 
             if (tens == 0 && units != 0) {
-                words.append("lẻ ");
+                System.out.print("lẻ ");
+                readDigit(units);
             } else if (tens == 1) {
-                words.append("mười ");
-            } else {
-                switch (tens) {
-                    case 2: words.append("hai mươi "); break;
-                    case 3: words.append("ba mươi "); break;
-                    case 4: words.append("bốn mươi "); break;
-                    case 5: words.append("năm mươi "); break;
-                    case 6: words.append("sáu mươi "); break;
-                    case 7: words.append("bảy mươi "); break;
-                    case 8: words.append("tám mươi "); break;
-                    case 9: words.append("chín mươi "); break;
+                System.out.print("mười ");
+                if (units != 0) {
+                    readDigit(units);
                 }
-            }
-            if (units != 0) {
-                if (units == 5 && tens > 0) {
-                    words.append("lăm");
-                } else {
-                    switch (units) {
-                        case 1: words.append("một"); break;
-                        case 2: words.append("hai"); break;
-                        case 3: words.append("ba"); break;
-                        case 4: words.append("bốn"); break;
-                        case 5: words.append("năm"); break;
-                        case 6: words.append("sáu"); break;
-                        case 7: words.append("bảy"); break;
-                        case 8: words.append("tám"); break;
-                        case 9: words.append("chín"); break;
+            } else {
+                if (tens > 1) {
+                    readDigit(tens);
+                    System.out.print(" mươi ");
+                }
+                if (units != 0) {
+                    if (units == 5 && tens > 0) {
+                        System.out.print("lăm");
+                    } else {
+                        readDigit(units);
                     }
                 }
             }
-            System.out.println(words.toString().trim());
+        }
+    }
+
+    static void readDigit(int digit) {
+        switch (digit) {
+            case 1: System.out.print("một"); break;
+            case 2: System.out.print("hai"); break;
+            case 3: System.out.print("ba"); break;
+            case 4: System.out.print("bốn"); break;
+            case 5: System.out.print("năm"); break;
+            case 6: System.out.print("sáu"); break;
+            case 7: System.out.print("bảy"); break;
+            case 8: System.out.print("tám"); break;
+            case 9: System.out.print("chín"); break;
         }
     }
 }
