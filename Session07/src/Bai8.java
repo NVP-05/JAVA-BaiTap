@@ -7,7 +7,7 @@ public class Bai8 {
             System.out.println("Giá trị không hợp lệ.");
             return;
         }
-        String characters = "ADKHJKASHHajhsdahs123452435";
+        String characters = "ABCDEFGHabcdefgh0123456789";
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < n; i++){
             int index = (int) (Math.random() * characters.length());
