@@ -7,13 +7,13 @@ public class Main {
         String aNum = sc.nextLine();
         System.out.printf("Tên tài khoản 1: ");
         String aHolder = sc.nextLine();
-        BankAccount b1 = new BankAccount("BA01", "Vỹ");
+        BankAccount b1 = new BankAccount(aNum, aHolder);
 
         System.out.printf("Số tài khoản 2: ");
         aNum = sc.nextLine();
         System.out.printf("Tên tài khoản 2: ");
         aHolder = sc.nextLine();
-        BankAccount b2 = new BankAccount("BA02", "Hai");
+        BankAccount b2 = new BankAccount(aNum, aHolder);
 
         b1.display();
         b2.display();
