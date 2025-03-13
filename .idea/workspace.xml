@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="462c4bea-07c0-4705-9c8b-c5ae2dfa1e63" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Session09/src/Bai8/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Session09/src/Bai8/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Session09/src/Bai8/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Session09/src/Bai8/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +30,10 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/ADMIN/Desktop/JAVA-BaiTap&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -55,6 +60,9 @@
       <workItem from="1741752321941" duration="16000" />
       <workItem from="1741762112752" duration="17000" />
       <workItem from="1741768323360" duration="108000" />
+      <workItem from="1741768473897" duration="697000" />
+      <workItem from="1741770140116" duration="5000" />
+      <workItem from="1741838592107" duration="79000" />
     </task>
     <servers />
   </component>
