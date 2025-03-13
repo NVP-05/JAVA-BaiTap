@@ -2,233 +2,165 @@ import java.util.Scanner;
 
 public class BookManagement {
     static Book[] books = new Book[100];
-    static int index = 0;
-
+    static int currentIndex = 0;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        do {
-            System.out.println("*****************MENU********************");
-            System.out.println("1. Hiển thị danh sách sách");
-            System.out.println("2. Thêm mới sách");
-            System.out.println("3. Tính lợi nhuận của các sách");
-            System.out.println("4. Cập nhật sách theo id");
-            System.out.println("5. Xóa sách theo id");
-            System.out.println("6. Sắp xếp sách theo lợi nhuận tăng dần");
-            System.out.println("7. Tìm kiếm sách theo tác giả");
-            System.out.println("8. Tìm kiếm sách theo khoảng giá");
-            System.out.println("9. Thống kê sách theo mỗi tác giá");
+        do{
+            System.out.println("***********************MENU**************************");
+            System.out.println("1. Hiển thị danh sách.");
+            System.out.println("2. Thêm mới sách.");
+            System.out.println("3. Tính lợi nhuận của sách.");
+            System.out.println("4. Cập nhật sách.");
+            System.out.println("5. Xóa sách.");
+            System.out.println("6. Sắp xếp sách theo lợi nhuận tăng dần.");
+            System.out.println("7. Tìm kiếm sách theo tác giả.");
+            System.out.println("8. Tìm kiếm sách theo khoảng giá.");
+            System.out.println("9. Thống kê sách theo mọi tác giả");
             System.out.println("10. Thoát");
-
-            System.out.println("Lựa chọn của bạn : ");
-            int choice = scanner.nextInt();
-            switch (choice) {
+            System.out.println("Lựa chọn của bạn là: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+            switch(choice){
                 case 1:
                     displayBook();
                     break;
                 case 2:
-                    addBook(scanner);  // Remove index++ from here
+                    addBook(scanner);
                     break;
                 case 3:
-                    callInterest();
+                    caculateInterest(scanner);
                     break;
                 case 4:
                     updateBook(scanner);
                     break;
                 case 5:
-                    deleteBook(scanner);
+                    deleteBookById(scanner);
                     break;
                 case 6:
                     sortBooksByInterest();
+                    displayBook();
                     break;
                 case 7:
-                    searchBookByAuthor(scanner);
+                    searchBooksByAuthorName(scanner);
                     break;
                 case 8:
-                    searchBookByPriceRange(scanner);
+                    searchBooksByExportRange(scanner);
                     break;
                 case 9:
-                    statisticsByAuthor();
+                    countBookByAuthor(scanner);
                     break;
                 case 10:
                     System.exit(0);
+                    break;
                 default:
-                    System.out.println("Nhập lại lựa chọn");
+                    System.out.println("Vui lòng chọn từ 1-10:");
             }
-        } while (true);
+        }while(true);
     }
 
-    public static void displayBook() {
-        if (index == 0) {
-            System.out.println("Danh sách sách trống");
-        } else {
-            System.out.println("-------------------");
-            System.out.println("Danh sách: ");
-            for (int i = 0; i < index; i++) {
-                books[i].displayData();
-                System.out.println("-------------------");
-            }
+    public static void displayBook(){
+        System.out.println("Danh sách:");
+        for (int i = 0; i < currentIndex; i++ ){
+            books[i].displayData();
+        }
+    }
+    public static void addBook(Scanner scanner){
+        System.out.println("Nhập số lượng sách cần thêm");
+        int numberOfBooks = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < numberOfBooks; i++){
+            books[currentIndex] = new Book();
+            books[currentIndex].inputData(scanner);
+            currentIndex++;
         }
     }
 
-    public static void addBook(Scanner scanner) {
-        if (index < books.length) {
-            books[index] = new Book();
-            books[index].inputData(scanner);
-            index++;
-        } else {
-            System.out.println("Danh sách sách đã đầy!");
+    public static void  caculateInterest(Scanner scanner){
+        for (int i = 0; i < currentIndex; i++ ){
+            books[i].setInterest(books[i].callInterest());
         }
     }
 
-    public static void callInterest() {
-        for (int i = 0; i < index; i++) {
-            books[i].calInterest();
-        }
-    }
-
-    public static void updateBook(Scanner scanner) {
-        if (index == 0) {
-            System.out.println("Danh sách sách trống!");
-            return;
-        }
-
-        scanner.nextLine();
-        System.out.println("Nhập ID sách cần cập nhật: ");
-        String updateId = scanner.nextLine();
-
-        boolean found = false;
-        for (int i = 0; i < index; i++) {
-            if (books[i].getBookId().equals(updateId)) {
-                found = true;
-                do {
-                    System.out.println("MENU CẬP NHẬT SÁCH");
-                    System.out.println("1. Cập nhật tên sách");
-                    System.out.println("2. Cập nhật giá nhập");
-                    System.out.println("3. Cập nhật giá xuất");
-                    System.out.println("4. Cập nhật tiêu đề");
-                    System.out.println("5. Cập nhật tác giả");
-                    System.out.println("6. Cập nhật năm xuất bản");
-                    System.out.println("7. Quay lại menu chính");
-                    System.out.println("Chọn thông tin cần cập nhật: ");
-
-                    int choice = scanner.nextInt();
-                    scanner.nextLine();
-
-                    switch (choice) {
-                        case 1:
-                            System.out.println("Nhập tên sách mới: ");
-                            String newName = scanner.nextLine();
-                            books[i].setBookName(newName);
-                            System.out.println("Cập nhật tên sách thành công!");
-                            break;
-
-                        case 2:
-                            System.out.println("Nhập giá nhập mới: ");
-                            float newImportPrice = scanner.nextFloat();
-                            while (newImportPrice <= 0) {
-                                System.out.println("Giá nhập phải > 0");
-                                System.out.println("Nhập lại giá nhập: ");
-                                newImportPrice = scanner.nextFloat();
-                            }
-                            books[i].setImportPrice(newImportPrice);
-                            books[i].calInterest(); // Tính lại lợi nhuận
-                            System.out.println("Cập nhật giá nhập thành công!");
-                            break;
-
-                        case 3:
-                            System.out.println("Nhập giá xuất mới: ");
-                            float newExportPrice = scanner.nextFloat();
-                            while (newExportPrice <= books[i].getImportPrice() * 1.1) {
-                                System.out.println("Giá xuất phải > giá nhập 10%");
-                                System.out.println("Nhập lại giá xuất: ");
-                                newExportPrice = scanner.nextFloat();
-                            }
-                            books[i].setExportPrice(newExportPrice);
-                            books[i].calInterest(); // Tính lại lợi nhuận
-                            System.out.println("Cập nhật giá xuất thành công!");
-                            break;
-
-                        case 4:
-                            System.out.println("Nhập tiêu đề mới: ");
-                            String newTitle = scanner.nextLine();
-                            while (newTitle.isEmpty()) {
-                                System.out.println("Tiêu đề không được để trống");
-                                System.out.println("Nhập lại tiêu đề: ");
-                                newTitle = scanner.nextLine();
-                            }
-                            books[i].setTitle(newTitle);
-                            System.out.println("Cập nhật tiêu đề thành công!");
-                            break;
-
-                        case 5:
-                            System.out.println("Nhập tên tác giả mới: ");
-                            String newAuthor = scanner.nextLine();
-                            while (newAuthor.isEmpty()) {
-                                System.out.println("Tên tác giả không được để trống");
-                                System.out.println("Nhập lại tên tác giả: ");
-                                newAuthor = scanner.nextLine();
-                            }
-                            books[i].setAuthor(newAuthor);
-                            System.out.println("Cập nhật tác giả thành công!");
-                            break;
-
-                        case 6:
-                            System.out.println("Nhập năm xuất bản mới: ");
-                            int newYear = scanner.nextInt();
-                            while (newYear <= 1970) {
-                                System.out.println("Năm phải > 1970");
-                                System.out.println("Nhập lại năm xuất bản: ");
-                                newYear = scanner.nextInt();
-                            }
-                            books[i].setYear(newYear);
-                            System.out.println("Cập nhật năm xuất bản thành công!");
-                            break;
-
-                        case 7:
-                            return;
-
-                        default:
-                            System.out.println("Lựa chọn không hợp lệ!");
-                    }
-
-
-                    System.out.println("\nThông tin sách sau khi cập nhật:");
-                    books[i].displayData();
-
-                } while (true);
+    public static int getBookById(String bookId){
+        for (int i = 0; i < currentIndex; i++ ){
+            if (books[i].getBookId().equals(bookId)){
+                return i;
             }
         }
-
-        if (!found) {
-            System.out.println("Không tìm thấy sách có ID: " + updateId);
-        }
+        return -1;
     }
 
-    private static void deleteBook(Scanner scanner) {
-        System.out.print("Nhập mã sách cần xóa: ");
-        String bookId = scanner.nextLine();
-        for (int i = 0; i < index; i++) {
-            if (books[i].getBookId().equals(bookId)) {
-                for (int j = i; j < index - 1; j++) {
-                    books[j] = books[j + 1];
+    public static void updateBook(Scanner scanner){
+        System.out.println("Nhập id sách cần cập nhật: ");
+        String bookId= scanner.nextLine();
+        int index = getBookById(bookId);
+
+        if (index == -1){
+            System.out.printf("Không tìm thấy sách có ID là: %s\n", bookId);
+        }else{
+            boolean isExit = true;
+            do{
+                System.out.println("****************CẬP NHẬT THÔNG TIN SÁCH**********");
+                System.out.println("1. Cập nhật tên sách.");
+                System.out.println("2. Cập nhật giá sách.");
+                System.out.println("3. Cập nhật giá bán sách.");
+                System.out.println("4. Cập nhật tiêu đề sách.");
+                System.out.println("5. Cập nhật tác giả.");
+                System.out.println("6. Cập nhật năm xuất bản.");
+                System.out.println("7. Thoát");
+                System.out.print("Chọn mục cần cập nhật: ");
+                int choiceUpdate = Integer.parseInt(scanner.nextLine());
+                switch(choiceUpdate){
+                    case 1:
+                        System.out.println("Nhập vào tên sách mới.");
+                        books[index].setBookName(scanner.nextLine());
+                        break;
+                    case 2:
+                        System.out.println("Nhập vào giá nhập sách mới.");
+                        books[index].setImportPrice(Double.parseDouble(scanner.nextLine()));
+                        break;
+                    case 3:
+                        System.out.println("Nhập vào giá bán sách mới.");
+                        books[index].setExportPrice(Double.parseDouble(scanner.nextLine()));
+                        break;
+                    case 4:
+                        System.out.println("Nhập vào tiêu đề sách mới.");
+                        books[index].setTitle(scanner.nextLine());
+                        break;
+                    case 5:
+                        System.out.println("Nhập vào tên tác giả mới.");
+                        books[index].setAuthor(scanner.nextLine());
+                        break;
+                    case 6:
+                        System.out.println("Nhập vào năm xuất bản mới.");
+                        books[index].setYear(Integer.parseInt(scanner.nextLine()));
+                        break;
+                    case 7:
+                        isExit = false;
+                        break;
+                    default:
+                        System.out.println("Vui lòng chọn từ 1-7:");
                 }
-                books[index - 1] = null;
-                index--;
-                System.out.println("Đã xóa sách thành công.");
-                return;
-            }
+            }while(isExit);
         }
-        System.out.println("Không tìm thấy sách với mã " + bookId);
+    }
+    // xoa sach theo id sach
+    public static void deleteBookById(Scanner scanner){
+        System.out.println("Nhập vào id sách muốn xóa:");
+        String bookId = scanner.nextLine() ;
+        int index = getBookById(bookId);
+        if (index == -1){
+            System.out.println("Không tìm thấy sách có id là: " + bookId);
+        }else {
+            for (int i = index; i < currentIndex - 1; i++ ){
+                books[i] = books[i + 1];
+            }
+            currentIndex--;
+        }
+        System.out.println("Xóa thành công sách có id là: " + bookId);
     }
 
     public static void sortBooksByInterest() {
-        if (index == 0) {
-            System.out.println("Danh sách sách trống!");
-            return;
-        }
-
-        for (int i = 0; i < index - 1; i++) {
-            for (int j = 0; j < index - i - 1; j++) {
+        for (int i = 0; i < currentIndex - 1; i++) {
+            for (int j = 0; j < currentIndex - 1 - i; j++) {
                 if (books[j].getInterest() > books[j + 1].getInterest()) {
                     Book temp = books[j];
                     books[j] = books[j + 1];
@@ -236,84 +168,40 @@ public class BookManagement {
                 }
             }
         }
-
-        System.out.println("Đã sắp xếp sách theo lợi nhuận tăng dần:");
-        displayBook();
     }
 
-    private static void searchBookByAuthor(Scanner scanner) {
-        scanner.nextLine();
-        System.out.print("Nhập tên tác giả cần tìm: ");
-        String author = scanner.nextLine();
-        boolean found = false;
-
-        for (int i = 0; i < index; i++) {
-            if (books[i].getAuthor().toLowerCase().contains(author.toLowerCase())) {
+    public static void searchBooksByAuthorName(Scanner scanner){
+        System.out.println("Nhập vào tên tác giả: ");
+        String input = scanner.nextLine();
+        System.out.println("Danh sách các sách theo tác giả: "+ input);
+        for (int i = 0; i < currentIndex; i++) {
+            if (books[i].getAuthor().equals(input)){
                 books[i].displayData();
-                System.out.println("-------------------");
-                found = true;
             }
         }
-
-        if (!found) {
-            System.out.println("Không tìm thấy sách của tác giả có tên chứa '" + author + "'");
-        }
     }
+    public static void searchBooksByExportRange(Scanner scanner){
+        System.out.println("Nhập vào giá thấp nhất:");
+        double start = Double.parseDouble(scanner.nextLine());
+        System.out.println("Nhập vào giá cao nhất:");
+        double end = Double.parseDouble(scanner.nextLine());
 
-    public static void searchBookByPriceRange(Scanner scanner) {
-        System.out.println("Nhập khoảng giá thấp nhất: ");
-        float minPrice = scanner.nextFloat();
-
-        System.out.println("Nhập khoảng giá cao nhất: ");
-        float maxPrice = scanner.nextFloat();
-
-        if (minPrice > maxPrice) {
-            System.out.println("Khoảng giá không hợp lệ!");
-            return;
-        }
-
-        boolean found = false;
-        System.out.println("Kết quả tìm kiếm: ");
-        for (int i = 0; i < index; i++) {
-            if (books[i].getExportPrice() >= minPrice && books[i].getExportPrice() <= maxPrice) {
+        System.out.printf("Danh sách các sách trong khoảng từ %f đến %f là \n", start, end);
+        for(int i= 0; i < currentIndex; i++){
+            if(books[i].getExportPrice() >= start && books[i].getExportPrice() <= end){
                 books[i].displayData();
-                System.out.println("-------------------");
-                found = true;
-            }
-        }
-
-        if (!found) {
-            System.out.println("Không tìm thấy sách trong khoảng giá từ " + minPrice + " đến " + maxPrice);
-        }
-    }
-
-    public static void statisticsByAuthor() {
-        System.out.println("Thống kê số lượng sách theo từng tác giả:");
-
-        for (int i = 0; i < index; i++) {
-            String author = books[i].getAuthor();
-
-            // Chỉ in nếu đây là lần đầu tiên gặp tác giả
-            boolean isFirstTime = true;
-            for (int j = 0; j < i; j++) {
-                if (books[j].getAuthor().equals(author)) {
-                    isFirstTime = false;
-                    break;
-                }
-            }
-
-            // Nếu là lần đầu, đếm và in
-            if (isFirstTime) {
-                int count = 0;
-                for (int k = 0; k < index; k++) {
-                    if (books[k].getAuthor().equals(author)) {
-                        count++;
-                    }
-                }
-                System.out.println("Tác giả: " + author + " - Số lượng sách: " + count);
             }
         }
     }
-
-
+    public static void countBookByAuthor(Scanner scanner){
+        System.out.println("Nhập vào tên tác giả:");
+        String input = scanner.nextLine();
+        int count = 0;
+        for (int i = 0; i < currentIndex; i++) {
+            if (books[i].getAuthor().equals(input)){
+                count ++;
+            }
+        }
+        System.out.printf("Tác giả %s có %d quyển sách", input, count);
+    }
 }
