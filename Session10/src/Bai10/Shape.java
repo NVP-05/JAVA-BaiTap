@@ -3,6 +3,9 @@ package Bai10;
 abstract class Shape {
     protected String name;
 
+    public Shape() {
+    }
+
     public Shape(String name) {
         this.name = name;
     }
