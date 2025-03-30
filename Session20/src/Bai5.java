@@ -16,8 +16,7 @@ public class Bai5 {
     public static void findSecondHeighestNumber(List<Integer> list) {
         Optional<Integer> secondNumber = list.stream().distinct()
                 .sorted(Comparator.reverseOrder())
-                .skip(1)
-                .findFirst();
+                .skip(1).findFirst();
         if (secondNumber.isPresent()) {
             System.out.println("Số lớn thứ 2 là: " + secondNumber.get());
         } else System.out.println("Không có số lớn thứ 2");
